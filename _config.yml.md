@@ -3,6 +3,7 @@ plugins:
 relative_links:
   enabled: true
   collections: true
+  markdown: GFM
 include:
   - CONTRIBUTING.md
   - README.md
