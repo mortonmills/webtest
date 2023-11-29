@@ -24,6 +24,7 @@ tracks
 > Crucial information necessary for users to succeed.
 
 ## Instruments
+
 | File Type | Instruments Text | Instrument Files |     Instrument Players |
 | :-------- | :--------------- | :--------------: | ---------------------: |
 | soundfont | n/a              |     sf2, sf3     |             Fluidsynth |
@@ -32,6 +33,7 @@ tracks
 
 
 ## Score
+
 | File Type              | Score Text     | Score Files |
 | :--------------------- | :------------- | :---------: |
 | quantitative           | abc, def, lily |    MIDI     |
@@ -40,6 +42,7 @@ tracks
 
 
 ## Features
+
 | File Type              | Score Text     | Score Files |
 | :--------------------- | :------------- | :---------: |
 | quantitative           | abc, def, lily |    MIDI     |
