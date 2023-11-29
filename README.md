@@ -1,6 +1,19 @@
 
-Score can be produced in many ways.
+pitch features
+time
+velocity
 
+```
+language features
+notes
+chords
+arpeggios
+trills
+tremolos
+patterns
+repeats
+tracks
+```
 
 > [!IMPORTANT]
 > sfdsfd
