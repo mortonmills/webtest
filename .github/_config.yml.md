@@ -1,9 +1,4 @@
-plugins:
-  - jekyll-relative-links
-relative_links:
-  enabled: true
-  collections: true
-  markdown: GFM
+markdown: GFM
 include:
   - CONTRIBUTING.md
   - README.md
