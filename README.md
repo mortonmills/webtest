@@ -1,4 +1,24 @@
 
+<pre class="mermaid">
+flowchart TB
+
+1[dfhdfg
+dfghdf
+ghdfhg
+dfghdfh]
+
+</pre>
+<pre class="mermaid">
+flowchart TD
+     A-->B
+</pre>
+
+<b style="font-size=30px">bold</b>\
+<i>italic</i>
+
+
+
+
 pitch features
 time
 velocity
@@ -48,12 +68,37 @@ tracks
 | quantitative           | abc, def, lily |    MIDI     |
 | semantic, qualitiative | abc, def, lily |  MusicXML   |
 
+```mermaid
+flowchart LR
+subgraph 2["Lifecycle"]
+direction LR
+Research --->
+Design--->
+Build --->
+Distribute
+Ingredients --->
+Recipe --->
+Chef
+end
+```
+
+```mermaid
+flowchart LR
+subgraph 1["High Level Stages"]
+direction LR
+Proof-of-Concept0.0 --->
+Tutorials --->
+Release1.0 --->
+FundingandSponsoring 
+end
+```
+
 
 ```mermaid
 
 flowchart LR
 
-subgraph Pipeline
+subgraph 1["Pipeline"]
 direction LR
 instrument--->player
 score--->player
