@@ -35,13 +35,6 @@ repeats
 tracks
 ```
 
-> [!IMPORTANT]
-> sfdsfd
-> Score + Instruments + Player = Sound
-
-
-> [!IMPORTANT]
-> Crucial information necessary for users to succeed.
 
 
 <link rel="stylesheet" href="keyboard.css">
