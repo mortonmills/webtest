@@ -43,6 +43,16 @@ tracks
 > [!IMPORTANT]
 > Crucial information necessary for users to succeed.
 
+
+<link rel="stylesheet" href="keyboard.css">
+<script src="keyboard.js"></script>
+<div id="keyboardInput"></div>
+<script> 
+document.getElementById("keyboardInput").innerHTML =  keyboard(`abcdefgrs`)
+</script>
+
+
+
 ## Instruments
 
 | File Type | Instruments Text | Instrument Files |     Instrument Players |

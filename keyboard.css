@@ -1,0 +1,50 @@
+.key {
+    display: inline-block;
+    background-color: lightgrey;
+    border: black 2px solid;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 28px;
+    margin: 1px;
+  }
+
+  .button-size {
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .button {
+    width: 50px;
+  }
+  
+  .tab {
+    width: 80px;
+  }
+
+  .caps, .enter {
+    width: 100px;
+  }
+
+  .shift, .backspace {
+    width: 120px;
+  }
+
+
+
+  /* , .tones, .time, .special */
+
+  .headers {
+    background-color: lightgray;
+  }
+
+  .tones {
+    background-color: red;
+  }
+
+  .time {
+    background-color: lime;
+  }
+
+  .special {
+    background-color: violet;
+  }
