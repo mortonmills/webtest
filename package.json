@@ -1,0 +1,15 @@
+{
+  "name": "webtest",
+  "version": "1.0.0",
+  "description": "<pre class=\"mermaid\"> flowchart TB",
+  "main": "keyboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eleventy": "^1.0.6"
+  }
+}
