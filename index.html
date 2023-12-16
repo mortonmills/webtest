@@ -1,0 +1,199 @@
+<pre class="mermaid">
+flowchart TB
+
+1[dfhdfg
+dfghdf
+ghdfhg
+dfghdfh]
+
+</pre>
+
+<pre class="mermaid">
+flowchart TD
+     A-->B
+</pre>
+
+<p><b style="font-size=30px">bold</b><br />
+<i>italic</i></p>
+<p>pitch features time velocity</p>
+<pre><code>language features
+notes
+chords
+arpeggios
+trills
+tremolos
+patterns
+repeats
+tracks</code></pre>
+<div class="important">
+<div class="title">
+<p>Important</p>
+</div>
+<p>sfdsfd Score + Instruments + Player = Sound</p>
+</div>
+<div class="important">
+<div class="title">
+<p>Important</p>
+</div>
+<p>Crucial information necessary for users to succeed.</p>
+</div>
+<link rel="stylesheet" href="keyboard.css">
+<script src="keyboard.js"></script>
+<div id="keyboardInput"></div>
+<script> 
+document.getElementById("keyboardInput").innerHTML =  keyboard(`abcdefgrs`)
+</script>
+
+<h2 id="instruments">Instruments</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File Type</th>
+<th style="text-align: left;">Instruments Text</th>
+<th style="text-align: center;">Instrument Files</th>
+<th style="text-align: right;">Instrument Players</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">soundfont</td>
+<td style="text-align: left;">n/a</td>
+<td style="text-align: center;">sf2, sf3</td>
+<td style="text-align: right;">Fluidsynth</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sfz</td>
+<td style="text-align: left;">sfz</td>
+<td style="text-align: center;">sfz</td>
+<td style="text-align: right;">sforzando</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VST</td>
+<td style="text-align: left;">csound, chuck</td>
+<td style="text-align: center;">VST</td>
+<td style="text-align: right;">DAW, Kontakt, VST Host</td>
+</tr>
+</tbody>
+</table>
+<h2 id="score">Score</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File Type</th>
+<th style="text-align: left;">Score Text</th>
+<th style="text-align: center;">Score Files</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">quantitative</td>
+<td style="text-align: left;">abc, def, lily</td>
+<td style="text-align: center;">MIDI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">semantic, qualitiative</td>
+<td style="text-align: left;">abc, def, lily</td>
+<td style="text-align: center;">MusicXML</td>
+</tr>
+</tbody>
+</table>
+<h2 id="features">Features</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File Type</th>
+<th style="text-align: left;">Score Text</th>
+<th style="text-align: center;">Score Files</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">quantitative</td>
+<td style="text-align: left;">abc, def, lily</td>
+<td style="text-align: center;">MIDI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">semantic, qualitiative</td>
+<td style="text-align: left;">abc, def, lily</td>
+<td style="text-align: center;">MusicXML</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>flowchart LR
+subgraph 2[&quot;Lifecycle&quot;]
+direction LR
+Research ---&gt;
+Design---&gt;
+Build ---&gt;
+Distribute
+Ingredients ---&gt;
+Recipe ---&gt;
+Chef
+end</code></pre>
+<pre class="mermaid"><code>flowchart LR
+subgraph 1[&quot;High Level Stages&quot;]
+direction LR
+Proof-of-Concept0.0 ---&gt;
+Tutorials ---&gt;
+Release1.0 ---&gt;
+FundingandSponsoring 
+end</code></pre>
+<pre class="mermaid"><code>
+flowchart LR
+
+subgraph 1[&quot;Pipeline&quot;]
+direction LR
+instrument---&gt;player
+score---&gt;player
+player---&gt;sound
+
+
+end
+
+
+subgraph player
+direction TB
+Fluidsynth---sfozando---DAW---VSTHost
+end
+
+
+subgraph instrument
+direction LR
+textinstrument--&gt;scoreinstrument
+end
+
+subgraph score
+direction LR
+textscore--&gt;scorefile
+end
+
+
+subgraph textinstrument
+direction TB
+2[&quot;sfz&quot;]---csound---supercollider
+end
+
+subgraph scoreinstrument
+direction TB
+soundfont---sfz---VST
+end
+
+subgraph textscore
+direction TB
+abc---def---lily---mup
+end
+
+
+subgraph scorefile
+direction TB
+MIDI---MusicXML
+end
+
+</code></pre>
+<!-- <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark'
+    });
+</script> -->
