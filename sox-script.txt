@@ -1,44 +1,4 @@
 
-parse midi or generate instructions during def compile
-
-will need event information such as duration pitch velocity
-and also lyrics
-should be equal lyrics to events used
-will get the event time and measure length to next lyrics event
-if any noteOn event happen at same time then add to SSML
-
-follow lyrics events
-will need to support tempo changes and multiple pitches at the same time
-
-initial restriction will be a fixed tempo in tempo track and one noteOn per lyric
-
-[a, test, lyric,] lyric
-[4, 6, 2] duration
-[34,40, 42] absolute time, will subtract actual length of audio by this
-and then prepend a silence on first lyric if greater than 0
-amd then when track ends take absolute time for final lyric
---a--, test--, lyric--
-
-this is for initial audio syllable
-likely will be SSML
-not recommended altering audio speed within sox or DAW, quality is low
-
-after getting audio will need to get the duration with silence included
-either previous or after
-
-
-
-
-
-generate audio file
-split file into syllables
-pad syllables with silence and also add silence for sustains and silence
-concatnate audio files with wild syllables*.wav
-open in daw and render file with midi or optionally create file with fluidsynth
-then merge in sox with -m
-
-
-
 
 above period parameters
 min duration of sound before silence removal is stopped, 
@@ -47,6 +7,11 @@ maybe keep at 200 ms
 
 
 second is what volume will be considered silence, 0 is pure silence
+
+
+---------/-====--\--------/-==============--\--
+---==----/======-\--------/================-\--
+---------/-====--\--------/-==============--\--
 
 
 below period parameters

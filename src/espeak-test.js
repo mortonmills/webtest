@@ -1,64 +1,14 @@
 
-// add fluidsynth output and merge with audio for complete audio render
-// fluidsynth includes soundfont and qsynth 
-// so will need to remove those from download when adding in local use
 
-// setup vocal range for espeak should cover entire range for midi
-// will need to voice files for 9 octaves for about 5 voice files per midi file
-// can check the default hz for each voice in espeak and evaluate base pitch using that
-
-// get tempo from parsed midi, add too each lyric event with pitch
-// create a tempo track, will filter entire midi file for events and add all to tempo track
-// then sort tempo events by time
-// then add a tempo property for each lyrics event
-
-// get the absolute duration from current noteOn to the next noteOn within the voice
-// may want to sort, in case absDeltaTime gets rearranged
-
-
-// can also keep voice monotone and add effects in other audio development
-// audio clear and maintains quality in output like this
-
-
-// create current tempo for each lyric event to determine the durational value in seconds
 
 const { lyricTrackArr, PPQN } = require('./parse-midi-time.js');
-const { reverseToneMap, espeakPitch } = require('./singing-data.js');
+const { reverseToneMap, espeakPitch, ttsMarkup } = require('./singing-data.js');
 // console.dir(lyricTrackArr, { depth: null });
 
 
-
 let tempo = 78
-
-let ttsMarkup = {
-    festival: {
-        head:
-            `
-    <?xml version="1.0"?>
-    <!DOCTYPE SINGING PUBLIC "-//SINGING//DTD SINGING mark up//EN" 
-      "Singing.v0_1.dtd"
-    []>
-    <SINGING BPM="${tempo}">
-    `,
-        tail: `
-    </SINGING>`
-
-    },
-
-    espeak: {
-        head: `
-    <speak>
-    <voice name="Barf" required="name">
-    `,
-
-        tail: `
-    </voice>
-    </speak>
-    `
-    },
-
-
-}
+// have different options for output, can have presets for SSML for polly, azure, and espeak 
+let preset = "festival" // "festival"
 
 
 // track1voice2 naming system
@@ -130,8 +80,7 @@ for (let i = 0; i < lyricTrackArr.length; i++) {
 
 
 
-// have different options for output, can have presets for SSML for polly, azure, and espeak 
-let preset = "festival" // "festival"
+
 let markupTrackObj = {
     tracks: []
 }
@@ -455,6 +404,10 @@ for (let trackNum = 0; trackNum < lyricTrackObj.tracks.length; trackNum++) {
             let event = voice.events[eventNum]
 
 
+
+            // and then prepend a silence on first lyric if greater than 0
+            // amd then when track ends take absolute time for final lyric
+            // --a--, test--, lyric--
             // will usually be zero unless first syllable does not start at beginning of song-
             let beginPad =
                 event.beginAbsDuration

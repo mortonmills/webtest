@@ -48,5 +48,38 @@ let reverseToneMap =
 }
 
 
+
+let ttsMarkup = {
+    festival: {
+        head:
+            `
+    <?xml version="1.0"?>
+    <!DOCTYPE SINGING PUBLIC "-//SINGING//DTD SINGING mark up//EN" 
+      "Singing.v0_1.dtd"
+    []>
+    <SINGING BPM="${tempo}">
+    `,
+        tail: `
+    </SINGING>`
+
+    },
+
+    espeak: {
+        head: `
+    <speak>
+    <voice name="Barf" required="name">
+    `,
+
+        tail: `
+    </voice>
+    </speak>
+    `
+    },
+
+
+}
+
+
 module.exports.espeakPitch = espeakPitch;
 module.exports.reverseToneMap = reverseToneMap;
+module.exports.ttsMarkup = ttsMarkup;

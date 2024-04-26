@@ -2,10 +2,7 @@ const { readFileSync } = require('node:fs')
 
 // get midi as Uint8Array
 let midiFile = readFileSync('/home/mortonmills/tester.midi');
-
-
 const MidiParser = require('./colxi-midi-parser.js');
-
 let midiObj = MidiParser.parse(midiFile);
 
 // set absDeltaTime
