@@ -3,10 +3,10 @@
 // using silence as a delimiter
 
 
-function generateSyllables() {
+function generateSyllables(lyricTrackObj) {
 
 
-
+    const { spawnSync } = require("node:child_process")
     for (let trackNum = 0; trackNum < lyricTrackObj.tracks.length; trackNum++) {
 
         let track = lyricTrackObj.tracks[trackNum]

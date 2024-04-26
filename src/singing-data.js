@@ -51,7 +51,7 @@
 
 
 
-    function singingData(tempo) {
+    function ttsMarkup(tempo) {
 
     let ttsMarkup = {
         festival: {
@@ -87,6 +87,7 @@ return ttsMarkup
 
 }
 
+
 module.exports.espeakPitch = espeakPitch;
 module.exports.reverseToneMap = reverseToneMap;
-module.exports.singingData = singingData;
+module.exports.ttsMarkup = ttsMarkup;

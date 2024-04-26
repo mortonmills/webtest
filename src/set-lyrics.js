@@ -1,4 +1,4 @@
-function setLyrics() {
+function setLyrics(lyricTrackArr) {
 
     // this rearranges the lyricTrackArr for looping through events linearly instead of parallel
     // this need for calculating the absDuration which gives the amount of silence needed between each event

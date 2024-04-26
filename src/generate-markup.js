@@ -1,6 +1,10 @@
 
-function generateMarkup(PPQN) {
+function generateMarkup(lyricTrackObj, PPQN, preset, tempo) {
 
+
+    let { reverseToneMap, espeakPitch, ttsMarkup } = require('./singing-data.js');
+
+    ttsMarkup = ttsMarkup(tempo)
     // have different options for output, can have presets for SSML for polly, azure, and espeak 
     let markupTrackObj = {
         tracks: []

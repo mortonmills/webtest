@@ -4,12 +4,13 @@
 // when complete the audio file will align with the midi file
 // and can be used for singing
 
-function generateTimeline(tempo) {
+function generateTimeline(lyricTrackObj, tempo) {
 
 
     // this will be multiplied by the beat value to produce a seconds value of beat
     // negative values when using higher tempos
     // will likely need to make audio at low tempos and then speed up to match higher tempos
+    const { spawnSync } = require("node:child_process")
 
     let mergedTrackVoices = []
     let beatInSeconds = 60 / tempo // tempo

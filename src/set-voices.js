@@ -2,7 +2,7 @@
 
 // this function sets the voices
 
-function setVoices() {
+function setVoices(midiObj) {
 
     // have duration and absDeltaTime
     // get lyric event and all accompanying noteOn events that share absDeltaTime

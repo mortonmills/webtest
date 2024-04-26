@@ -1,4 +1,4 @@
-function setAbsDelta(){
+function setAbsDelta(midiObj){
 
 // set absDeltaTime
 // events are parsed relatively

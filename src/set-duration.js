@@ -2,7 +2,7 @@
 // this function sets the duration for each event 
 // and sets up the end of track abs delta time.
 
-function setDuration() {
+function setDuration(midiObj) {
 
 
     // console.dir(midiObj, { depth: null })

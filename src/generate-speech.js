@@ -1,6 +1,6 @@
 
 // this outputs an audio file(s) of text to speech into a folder
-function generateSpeech() {
+function generateSpeech(markupTrackObj, preset) {
 
     // this section generates audio from text to speech
     // this uses the markup generated from the lyricTrackArr
