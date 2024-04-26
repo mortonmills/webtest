@@ -1,6 +1,6 @@
 
 
-function mergeTracks(){
+function mergeTracks(mergedTrackVoices){
 
 // skips singular voice in array
 // will cause break in sox if not, since singular files cannot be merged

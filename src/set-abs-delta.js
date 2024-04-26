@@ -1,6 +1,9 @@
 function setAbsDelta(){
 
 // set absDeltaTime
+// events are parsed relatively
+// this gives each event an absolute time
+// this is needed to determine duration and aid in accurately timing the audio track
 for (let i = 0; i < midiObj.track.length; i++) {
 
     // reset absDeltaTime per track

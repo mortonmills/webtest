@@ -1,4 +1,5 @@
 
+// this outputs an audio file(s) of text to speech into a folder
 function generateSpeech() {
 
     // this section generates audio from text to speech

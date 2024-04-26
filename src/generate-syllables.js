@@ -1,11 +1,11 @@
 
-// this section split the audio into syllables
+// this section split the audio into separate audio files of syllables
 // using silence as a delimiter
 
 
 function generateSyllables() {
 
-    
+
 
     for (let trackNum = 0; trackNum < lyricTrackObj.tracks.length; trackNum++) {
 

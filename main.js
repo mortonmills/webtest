@@ -1,8 +1,10 @@
 
+// adding parameters
+
 function main() {
     let tempo = 78
     // have different options for output, can have presets for SSML for polly, azure, and espeak 
-    let preset = "festival" // "festival"
+    let preset = "festival" // "festival" or "espeak"
 
 
     const { readFileSync } = require('node:fs')
@@ -11,8 +13,6 @@ function main() {
 
     const MidiParser = require('./colxi-midi-parser.js');
     let midiObj = MidiParser.parse(midiFile);
-
-    const PPQN = midiObj.timeDivision;
 
 
     const setAbsDelta = require('./set-abs-delta.js');
@@ -26,18 +26,29 @@ function main() {
     let lyricTrackArr = setVoices()
     const setLyrics = require('./set-lyrics.js');
     // this restructures the array of lyrics events
-    setLyrics()
-    
-    
-    const setMarkup = require('./generate-markup.js');
+    let lyricTrackObj = setLyrics()
+
+
+
+
+    const PPQN = midiObj.timeDivision;
+    const { reverseToneMap, espeakPitch, singingData } = require('./singing-data.js');
+    // sets up markup for festival and espeak
+    let ttsMarkup = singingData(tempo)
+
+    const generateMarkup = require('./generate-markup.js');
     const generateSpeech = require('./generate-speech.js');
     const generateSyllables = require('./generate-syllables.js');
     const generateTimeline = require('./generate-timeline.js');
     // this generates markups to input into the compatible text-to-speech program
-    setMarkup()
+    let markupTrackObj = generateMarkup()
     generateSpeech()
     generateSyllables()
-    generateTimeline()
+    let mergedTrackVoices = generateTimeline(tempo)
+
+
+    const mergeTracks = require('./merge-tracks.js');
+    mergeTracks(mergedTrackVoices)
 
 
 

@@ -2,13 +2,44 @@
 
 
 const { lyricTrackArr, PPQN } = require('./parse-midi-time.js');
-const { reverseToneMap, espeakPitch, ttsMarkup } = require('./singing-data.js');
+const { reverseToneMap, espeakPitch } = require('./singing-data.js');
 // console.dir(lyricTrackArr, { depth: null });
 
 
 let tempo = 78
 // have different options for output, can have presets for SSML for polly, azure, and espeak 
 let preset = "festival" // "festival"
+
+
+let ttsMarkup = {
+    festival: {
+        head:
+            `
+    <?xml version="1.0"?>
+    <!DOCTYPE SINGING PUBLIC "-//SINGING//DTD SINGING mark up//EN" 
+      "Singing.v0_1.dtd"
+    []>
+    <SINGING BPM="${tempo}">
+    `,
+        tail: `
+    </SINGING>`
+
+    },
+
+    espeak: {
+        head: `
+    <speak>
+    <voice name="Barf" required="name">
+    `,
+
+        tail: `
+    </voice>
+    </speak>
+    `
+    },
+
+
+}
 
 
 // track1voice2 naming system

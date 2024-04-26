@@ -52,6 +52,7 @@ function setLyrics() {
     // console.dir(lyricTrackObj, { depth: null });
 
 
+    return lyricTrackObj
 
 
 }

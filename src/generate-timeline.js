@@ -1,10 +1,10 @@
 
-// this section takes syllables audio files and pad silence to them
+// this section takes syllables audio files and pads silence to them
 // this fills out the remaining space in the midi timeline
 // when complete the audio file will align with the midi file
 // and can be used for singing
 
-function generateTimeline() {
+function generateTimeline(tempo) {
 
 
     // this will be multiplied by the beat value to produce a seconds value of beat
@@ -138,8 +138,7 @@ function generateTimeline() {
 
     }
 
-
-
+    return mergedTrackVoices
 
 
 }

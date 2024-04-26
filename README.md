@@ -10,6 +10,9 @@ The lyrics go through 4 stages.
 - duration
 
 
+give number comparisons names instead of using numbers
+ex, 47 should be trackEndEvent
+
 support for:
 TEMPO
 tempo changes, each will have a tempo fixed to it, 

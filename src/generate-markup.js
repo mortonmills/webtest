@@ -1,5 +1,5 @@
 
-function setMarkup() {
+function generateMarkup(PPQN) {
 
     // have different options for output, can have presets for SSML for polly, azure, and espeak 
     let markupTrackObj = {
@@ -109,8 +109,8 @@ function setMarkup() {
                     str =
                         pitch === undefined
                             // duration may go where rate is
-                            ? `<prosody pitch="${espeakPitch[pitch]}" rate="${100}%">${lyric}</prosody>`
-                            : `<prosody pitch="${espeakPitch[pitch]}" rate="${100}%">${lyric}</prosody>`
+                            ? `<prosody pitch="${espeakPitch[pitch]}" rate="${100/*duration*/}%">${lyric}</prosody>`
+                            : `<prosody pitch="${espeakPitch[pitch]}" rate="${100/*duration*/}%">${lyric}</prosody>`
                 }
 
 
@@ -139,6 +139,8 @@ function setMarkup() {
     }
 
 
+    return markupTrackObj
+
 
 
 }
@@ -146,7 +148,7 @@ function setMarkup() {
 // console.dir(lyricTrackObj, { depth: null });
 // console.dir(markupTrackObj, { depth: null });
 
-module.exports.setMarkup = setMarkup
+module.exports.generateMarkup = generateMarkup
 
 
 
