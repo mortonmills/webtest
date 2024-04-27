@@ -4,7 +4,7 @@
 function main() {
     let tempo = 78
     // have different options for output, can have presets for SSML for polly, azure, and espeak 
-    let preset = "espeak" // "festival" or "espeak"
+    let preset = "festival" // "festival" or "espeak"
 
 
     const { readFileSync } = require('node:fs')

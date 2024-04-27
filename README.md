@@ -10,6 +10,8 @@ The lyrics go through 4 stages.
 - duration
 
 
+dynamic pitch object, use different voices for pitch range octaves
+
 give number comparisons names instead of using numbers
 ex, 47 should be trackEndEvent
 

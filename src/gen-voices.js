@@ -14,6 +14,14 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
     const { writeFileSync } = require('node:fs')
 
 
+    let { reverseToneMap, espeakPitch, ttsMarkup } = require('./singing-data.js');
+
+    ttsMarkup = ttsMarkup(tempo)
+    let beatInSeconds = 60 / tempo // tempo
+    // have different options for output, can have presets for SSML for polly, azure, and espeak 
+
+
+
     let mergedTrackVoices = []
 
 
@@ -30,6 +38,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
             let paddedSyllableFileNames = []
             let voice = track.voices[voiceNum]
+            let festivalVoice = []
             for (let eventNum = 0; eventNum < voice.events.length; eventNum++) {
 
                 let event = voice.events[eventNum]
@@ -119,7 +128,38 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                 pitch = midiPitchConvert + octave
 
                 // duration is divided by ppqn, duration of 20 / ppqn 40 renders an 8th note at 0.5
-                duration = duration / PPQN
+                // duration = duration / PPQN
+
+
+                // if event exists                 
+                if (event && preset === "festival") {
+
+                    // if event has beginning duration, then pad with rest value
+                    if (event.beginAbsDuration) {
+                        let beginRest = `<REST BEATS="${event.beginAbsDuration}"></REST>`
+                        festivalVoice.push(beginRest)
+                    }
+
+
+                    // makes sure flats, "b", are not capitalized
+                    pitch = pitch[0].toUpperCase() + pitch.slice(1)
+                    // MAY NEED TO ACCOUNT FOR 0 IN REST DISTANCE
+                    let festivalEvent =
+                        `<PITCH NOTE="${pitch}"><DURATION BEATS="${duration}">${lyric}</DURATION></PITCH>`
+                    festivalVoice.push(festivalEvent)
+
+
+                    // endAbs can only be greater than or equal to duration 
+                    let endRestDuration = event.endAbsDuration - event.duration
+                    if (endRestDuration !== 0) {
+                        let endRest = `<REST BEATS="${event.endAbsDuration}"></REST>`
+                        festivalVoice.push(endRest)
+                    }
+
+
+                    continue
+                }
+
 
 
 
@@ -132,7 +172,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                 while (true) {
 
                     // applies the reduction percent for any durations that are too long
-                    duration = duration * reductionPercent
+                    duration = event.duration * reductionPercent
 
                     // will convert syllable only if it exists
                     // since multiple voices can be used on one track
@@ -144,7 +184,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                             // makes sure flats, "b", are not capitalized
                             pitch = pitch[0].toUpperCase() + pitch.slice(1)
                             str = `<PITCH NOTE="${pitch}"><DURATION BEATS="${duration}">${lyric}</DURATION></PITCH>`
-                            // <REST BEATS="${1}"></REST>
+                            // <REST BEATS="${1}"></REST>                            
                         }
                         else if (preset === "espeak") {
 
@@ -240,7 +280,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                     ]
 
 
-                    let syllableNameClean = syllableFileName + "clean"
+                    let syllableNameClean = `track${trackNum}voice${voiceNum}syllable${eventNum}clean.wav`
                     let listArgs = [
                         syllableFileName, // input
                         syllableNameClean, // output, will be multiple wav files 
@@ -252,15 +292,22 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
 
 
-
+                    let bufferPad = "0.03"
                     listArgs = [
                         syllableNameClean, // input
                         syllableFileName, // output, will be multiple wav files 
-                        ...silenceArgs,
+                        "reverse", // reverses audio
+                        "pad",
+                        bufferPad, // add 3 secs of silence at beginning of file
+                        // ...silenceArgs,
                     ]
                     // rereverses audio and clean the front of silence
                     // syllable is restored with removed silence
                     spawnSync("sox", listArgs)
+
+
+
+
 
 
 
@@ -275,7 +322,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                     // so the duration will be adjusted according to that
                     // put simply, the loop is only for reducing the syllable's length, not increasing
 
-                    let beatInSeconds = 60 / tempo // tempo
+
 
                     // THIS SECTION DETERMINES THE LENGTH OF PADDING NEEDED FOR THE SYLLABLE
 
@@ -311,12 +358,26 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                     // if (endPad < 0) { endPad = 0 }
                     if (endPad >= 0) { break }
 
-                    loopocount += 1
+                    loopCount += 1
                     // prevents infinite loops
-                    if (loopCount > 5) { break }
-                    console.log(endPad)
+                    if (loopCount > 8) {
+                        endPad = 0
+                        break
+                    }
+
+                    // the following is executed if the value of the endPad is negative
+                    // meaning the syllable was too long
+                    console.log(lyric, pitch, reductionPercent, loopCount)
                     // what if negative number
-                    reductionPercent = durationInSeconds / syllableTimeInSeconds
+
+                    let durationInSeconds = event.duration * beatInSeconds
+                    reductionPercent =
+                        // if value is same or less than, then means it is second loop
+                        reductionPercent <= (durationInSeconds / syllableTimeInSeconds)
+                            // in the case the first loop reduction fails, reduce 10% each time
+                            ? reductionPercent - 0.10
+                            // this sets for first loop value
+                            : durationInSeconds / syllableTimeInSeconds
 
                     // potentially added more duration later
                     // if the expected is negative then the duration would need to be increased
@@ -346,9 +407,9 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                 // THIS SECTION PADS SILENCE TO THE SYLLABLE TO MATCH EVENT'S TIME IN THE MIDI FILE
 
 
-                let paddedSyllableFileName = `track${trackNum}voice${voiceNum}syllable${syllableNum}padded.wav`
+                let paddedSyllableFileName = `track${trackNum}voice${voiceNum}syllable${eventNum}padded.wav`
 
-                listArgs = [
+                let listArgs = [
                     syllableFileName, // input
                     paddedSyllableFileName, // output, will be multiple wav files 
                     "pad",
@@ -366,35 +427,48 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             let sequencedVoice = `atrack${trackNum}voice${voiceNum}sequenced.wav`
 
 
-            // puts padded syllables in sequence, linear
-            let listArgs = [
-                ...paddedSyllableFileNames, // input
-                sequencedVoice, // output,
-            ]
+            if (preset === "festival") {
+                // singing markupVoices per voice, typically one voice
+                festivalVoice = festivalVoice.join("\n")
 
-            spawnSync("sox", listArgs)
+                let { head, tail } = ttsMarkup.festival
+
+                festivalVoice = head + festivalVoice + tail
+
+
+                let markupFileName = `track${trackNum}voice${voiceNum}.xml`
+                writeFileSync(markupFileName, `${festivalVoice}`)
+
+
+                let listArgs = [
+                    "-mode",
+                    "singing",
+                    markupFileName,
+                    "-o",
+                    `track${trackNum}voice${voiceNum}.wav`,
+                ]
+
+
+
+                spawnSync("text2wave", listArgs)
+
+            }
+            else {
+
+                // puts padded syllables in sequence, linear
+                let listArgs = [
+                    ...paddedSyllableFileNames, // input
+                    sequencedVoice, // output,
+                ]
+
+                spawnSync("sox", listArgs)
+
+            }
+
+
 
 
             sequencedVoices.push(sequencedVoice)
