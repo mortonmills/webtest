@@ -58,10 +58,8 @@
             head:
                 `
     <?xml version="1.0"?>
-    <!DOCTYPE SINGING PUBLIC "-//SINGING//DTD SINGING mark up//EN" 
-      "Singing.v0_1.dtd"
-    []>
-    <SINGING BPM="${tempo}">
+    <!DOCTYPE SINGING PUBLIC "-//SINGING//DTD SINGING mark up//EN" "Singing.v0_1.dtd" []>
+    <SINGING BPM="${tempo/1.2}">
     `,
             tail: `
     </SINGING>`

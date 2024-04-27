@@ -11,6 +11,9 @@ The lyrics go through 4 stages.
 
 
 dynamic pitch object, use different voices for pitch range octaves
+festival tempo is 1.2 about times faster than what BPM is listed
+78 means 94
+65 means 78 
 
 give number comparisons names instead of using numbers
 ex, 47 should be trackEndEvent

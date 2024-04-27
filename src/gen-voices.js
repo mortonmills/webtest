@@ -128,7 +128,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                 pitch = midiPitchConvert + octave
 
                 // duration is divided by ppqn, duration of 20 / ppqn 40 renders an 8th note at 0.5
-                // duration = duration / PPQN
+                duration = duration / PPQN
 
 
                 // if event exists                 
@@ -150,9 +150,8 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
 
                     // endAbs can only be greater than or equal to duration 
-                    let endRestDuration = event.endAbsDuration - event.duration
-                    if (endRestDuration !== 0) {
-                        let endRest = `<REST BEATS="${event.endAbsDuration}"></REST>`
+                    if (event.endAbsDuration !== event.duration) {
+                        let endRest = `<REST BEATS="${event.endAbsDuration - duration}"></REST>`
                         festivalVoice.push(endRest)
                     }
 
@@ -427,7 +426,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
 
 
-            let sequencedVoice = `atrack${trackNum}voice${voiceNum}sequenced.wav`
+            let sequencedVoice = `track${trackNum}voice${voiceNum}sequenced.wav`
 
 
             if (preset === "festival") {
@@ -439,7 +438,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                 festivalVoice = head + festivalVoice + tail
 
 
-                let markupFileName = `track${trackNum}voice${voiceNum}.xml`
+                let markupFileName = `atrack${trackNum}voice${voiceNum}.xml`
                 writeFileSync(markupFileName, `${festivalVoice}`)
 
 
@@ -448,7 +447,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
                     "singing",
                     markupFileName,
                     "-o",
-                    `track${trackNum}voice${voiceNum}.wav`,
+                    sequencedVoice,
                 ]
 
 
