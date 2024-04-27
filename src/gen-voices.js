@@ -4,7 +4,7 @@
 // when complete the audio file will align with the midi file
 // and can be used for singing
 
-function generateTimeline(lyricTrackObj, tempo) {
+function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
 
     // this will be multiplied by the beat value to produce a seconds value of beat
@@ -122,161 +122,213 @@ function generateTimeline(lyricTrackObj, tempo) {
                 duration = duration / PPQN
 
 
-                // will convert syllable only if it exists
-                // since multiple voices can be used on one track
-                let str;
-                if (event) {
-
-                    if (preset === "festival") {
-
-                        // makes sure flats, "b", are not capitalized
-                        pitch = pitch[0].toUpperCase() + pitch.slice(1)
-                        str = `<PITCH NOTE="${pitch}"><DURATION BEATS="${duration}">${lyric}</DURATION></PITCH>
-                            <REST BEATS="${1}"></REST>`
-                    }
-                    else if (preset === "espeak") {
-
-                        // duration = 100 / duration
-                        duration = 50
-                        // pitch = espeakPitch[pitch]
-                        pitch = 50
-
-                        // duration may go where rate is
-                        // add 100% for duration if problems
-                        str = `<prosody pitch="${pitch}" rate="${duration}%">${lyric}</prosody>`
-                    }
 
 
-                }
-
-
-                let { head, tail } =
-                    preset === "festival"
-                        ? ttsMarkup.festival
-                        : ttsMarkup.espeak
-
-                let markupVoice = head + str + tail
-
-
-
-
-
-
-
+                // START WHILE LOOP HERE
+                let reductionPercent = 1;
+                let loopCount = 0;
+                let endPad;
                 let syllableFileName = `track${trackNum}voice${voiceNum}syllable${eventNum}.wav`
-                // THIS SECTION CONVERTS THE MARKUP TO AUDIO
-                if (preset === "espeak") {
+                while (true) {
 
-                    let listArgs = [
-                        "-z", // removes final sentence pause at end
-                        "-s", "60", // changes word speed, wpm
-                        // "-g", "20",
-                        "-w", syllableFileName, // this is the file name flgag for output
-                        "-m", `${markupVoice}`, // this flag indicates that text is to be markup
-                        "-v", `Barf`, // this is the voice name
+                    // applies the reduction percent for any durations that are too long
+                    duration = duration * reductionPercent
 
+                    // will convert syllable only if it exists
+                    // since multiple voices can be used on one track
+                    let str;
+                    if (event) {
+
+                        if (preset === "festival") {
+
+                            // makes sure flats, "b", are not capitalized
+                            pitch = pitch[0].toUpperCase() + pitch.slice(1)
+                            str = `<PITCH NOTE="${pitch}"><DURATION BEATS="${duration}">${lyric}</DURATION></PITCH>`
+                            // <REST BEATS="${1}"></REST>
+                        }
+                        else if (preset === "espeak") {
+
+                            duration = 100 / duration
+                            // duration = 50
+                            // pitch = espeakPitch[pitch]
+                            pitch = 50
+
+                            // duration may go where rate is
+                            // add 100% for duration if problems
+                            str = `<prosody pitch="${pitch}" rate="${duration}%">${lyric}</prosody>`
+                        }
+
+
+                    }
+
+
+                    let { head, tail } =
+                        preset === "festival"
+                            ? ttsMarkup.festival
+                            : ttsMarkup.espeak
+
+                    let markupVoice = head + str + tail
+
+
+
+
+
+
+
+                    // THIS SECTION CONVERTS THE MARKUP TO AUDIO
+                    if (preset === "espeak") {
+
+
+                        let listArgs = [
+                            "-z", // removes final sentence pause at end
+                            // this does not work with markdown, alt is to just use lyric
+                            // then no further silence processing is needed
+                            "-s", "60", // changes word speed, wpm
+                            // "-g", "20",
+                            "-w", syllableFileName, // this is the file name flgag for output
+                            "-m", `${markupVoice}`, // this flag indicates that text is to be markup
+                            "-v", `Barf`, // this is the voice name
+
+                        ]
+
+
+                        spawnSync("espeak-ng", listArgs)
+
+
+                    }
+
+                    else if (preset === "festival") {
+
+                        // console.log(voice)
+                        // may be possible not to need to write file,
+                        // can use string as argument with scheme expression
+                        // check text2wave docs
+                        let markupFileName = `track${trackNum}voice${voiceNum}.xml`
+                        writeFileSync(markupFileName, `${markupVoice}`)
+
+
+                        let listArgs = [
+                            "-mode",
+                            "singing",
+                            markupFileName,
+                            "-o",
+                            syllableFileName,
+                        ]
+
+                        spawnSync("text2wave", listArgs)
+
+                        // throw new Error("Finished!")
+
+                    }
+
+
+
+
+
+
+                    // THIS SECTION PROCESSES THE SYLLABLE
+                    // REMOVES EXCESS SILENCE TO PRODUCE ONLY SOUND
+
+
+                    let silenceArgs = [
+                        "reverse", // reverses audio
+                        "silence", // removes silence
+                        // begin period
+                        "1", // times until initiating silence removal process
+                        "0.01", // time of silence definition
+                        "0%", // volume silence definition 
                     ]
 
 
-                    spawnSync("espeak-ng", listArgs)
-
-
-                }
-
-                else if (preset === "festival") {
-
-                    // console.log(voice)
-                    // may be possible not to need to write file,
-                    // can use string as argument with scheme expression
-                    // check text2wave docs
-                    let markupFileName = `track${trackNum}voice${voiceNum}.xml`
-                    writeFileSync(markupFileName, `${markupVoice}`)
-
-
+                    let syllableNameClean = syllableFileName + "clean"
                     let listArgs = [
-                        "-mode",
-                        "singing",
-                        markupFileName,
-                        "-o",
-                        syllableFileName,
+                        syllableFileName, // input
+                        syllableNameClean, // output, will be multiple wav files 
+                        ...silenceArgs,
                     ]
 
-                    spawnSync("text2wave", listArgs)
+                    // reverses audio and clean the front of silence
+                    spawnSync("sox", listArgs)
 
-                    // throw new Error("Finished!")
 
+
+
+                    listArgs = [
+                        syllableNameClean, // input
+                        syllableFileName, // output, will be multiple wav files 
+                        ...silenceArgs,
+                    ]
+                    // rereverses audio and clean the front of silence
+                    // syllable is restored with removed silence
+                    spawnSync("sox", listArgs)
+
+
+
+
+
+
+
+
+
+                    // is possible to use loop to increase duration of syllable to match length in MIDI file
+                    // however this may sound unnatural, current limit is to ensure that its length does intefere with the need syllable
+                    // so the duration will be adjusted according to that
+                    // put simply, the loop is only for reducing the syllable's length, not increasing
+
+                    let beatInSeconds = 60 / tempo // tempo
+
+                    // THIS SECTION DETERMINES THE LENGTH OF PADDING NEEDED FOR THE SYLLABLE
+
+                    // duration will give total time needed
+                    // total duration should include all of the preceding (following) silences and sustains
+                    // subtract that value with the 
+                    // length of the syllable 
+
+                    let soxiArgs = [
+                        "-D",
+                        syllableFileName
+                    ]
+
+                    let syllableTimeInSeconds = spawnSync("soxi", soxiArgs).stdout.toString()
+                    syllableTimeInSeconds = Number(syllableTimeInSeconds)
+
+
+
+
+                    // the syllable's time is subtracted from the endPad 
+                    // since syllables time are measured from where they began
+                    endPad = event.endAbsDuration * beatInSeconds
+                    endPad = endPad - syllableTimeInSeconds
+
+
+
+                    // find how far from 0 the syallable is, 
+                    // and then calculate how much the rate should be increased
+
+                    // in case the value is negative
+                    // this is temporary solution to syllables being longer than duration to next syllable
+                    // the timing will still be off until corrected
+                    // if (endPad < 0) { endPad = 0 }
+                    if (endPad >= 0) { break }
+
+                    loopocount += 1
+                    // prevents infinite loops
+                    if (loopCount > 5) { break }
+                    console.log(endPad)
+                    // what if negative number
+                    reductionPercent = durationInSeconds / syllableTimeInSeconds
+
+                    // potentially added more duration later
+                    // if the expected is negative then the duration would need to be increased
+                    // instead of decreased
+
+                    // SETTING FOR FESTIVAL AND ESPEAK
+                    // calculate duration with beats to seconds
+                    // then compare to length in output
+
+                    // END WHILE LOOP HERE
                 }
 
-
-
-
-
-
-                // THIS SECTION PROCESSES THE SYLLABLE
-                // REMOVES EXCESS SILENCE TO PRODUCE ONLY SOUND
-
-
-                let silenceArgs = [
-                    "reverse", // reverses audio
-                    "silence", // removes silence
-                    // begin period
-                    "1", // times until initiating silence removal process
-                    "0.1", // time of silence definition
-                    "0%", // volume silence definition 
-                ]
-
-
-                let syllableNameClean = syllableFileName + "clean"
-                let listArgs = [
-                    syllableFileName, // input
-                    syllableNameClean, // output, will be multiple wav files 
-                    ...silenceArgs,
-                ]
-
-                // reverses audio and clean the front of silence
-                spawnSync("sox", listArgs)
-
-
-
-
-                listArgs = [
-                    syllableNameClean, // input
-                    syllableFileName, // output, will be multiple wav files 
-                    ...silenceArgs,
-                ]
-                // rereverses audio and clean the front of silence
-                // syllable is restored with removed silence
-                spawnSync("sox", listArgs)
-
-
-
-
-
-
-
-
-
-                // is possible to use loop to increase duration of syllable to match length in MIDI file
-                // however this may sound unnatural, current limit is to ensure that its length does intefere with the need syllable
-                // so the duration will be adjusted according to that
-                // put simply, the loop is only for reducing the syllable's length, not increasing
-                
-                let beatInSeconds = 60 / tempo // tempo
-
-                // THIS SECTION DETERMINES THE LENGTH OF PADDING NEEDED FOR THE SYLLABLE
-
-                // duration will give total time needed
-                // total duration should include all of the preceding (following) silences and sustains
-                // subtract that value with the 
-                // length of the syllable 
-
-                let soxiArgs = [
-                    "-D",
-                    syllableFileName
-                ]
-
-                let syllableTimeInSeconds = spawnSync("soxi", soxiArgs).stdout.toString()
-                syllableTimeInSeconds = Number(syllableTimeInSeconds)
 
 
 
@@ -288,30 +340,6 @@ function generateTimeline(lyricTrackObj, tempo) {
                     event.beginAbsDuration
                         ? event.beginAbsDuration * beatInSeconds
                         : 0
-                // the syllable's time is subtracted from the endPad 
-                // since syllables time are measured from where they began
-                let endPad = event.endAbsDuration * beatInSeconds
-                endPad = endPad - syllableTimeInSeconds
-
-                // in case the value is negative
-                // this is temporary solution to syllables being longer than duration to next syllable
-                // the timing will still be off until corrected
-                if (endPad < 0) { endPad = 0 }
-                console.log(endPad)
-                // what if negative number
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -443,24 +471,9 @@ function generateTimeline(lyricTrackObj, tempo) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     return mergedTrackVoices
 
 
 }
 
-module.exports.generateTimeline = generateTimeline
+module.exports.genVoices = genVoices

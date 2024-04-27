@@ -36,24 +36,28 @@ function main() {
 
 
 
-    const { generateMarkup } = require('./generate-markup.js');
-    const { generateSpeech } = require('./generate-speech.js');
-    const { generateSyllables } = require('./generate-syllables.js');
-    const { generateTimeline } = require('./generate-timeline.js');
-    // this generates markups to input into the compatible text-to-speech program
-    let markupTrackObj = generateMarkup(lyricTrackObj, PPQN, preset, tempo)
+    // const { generateMarkup } = require('./generate-markup.js');
+    // const { generateSpeech } = require('./generate-speech.js');
+    // const { generateSyllables } = require('./generate-syllables.js');
+    // const { generateTimeline } = require('./generate-timeline.js');
+    // // this generates markups to input into the compatible text-to-speech program
+    // let markupTrackObj = generateMarkup(lyricTrackObj, PPQN, preset, tempo)
 
 
 
-    console.dir(markupTrackObj, { depth: null });
-    // return value is audio in folder
-    generateSpeech(markupTrackObj, preset)
-    // return value is audio in folder
-    generateSyllables(lyricTrackObj)
+    // console.dir(markupTrackObj, { depth: null });
+    // // return value is audio in folder
+    // generateSpeech(markupTrackObj, preset)
+    // // return value is audio in folder
+    // generateSyllables(lyricTrackObj)
+    // // returns list of filenames to be merged in folder
+    // let mergedTrackVoices = generateTimeline(lyricTrackObj, tempo)
+
+
+    const { genVoices } = require('./gen-voices.js');
     // returns list of filenames to be merged in folder
-    let mergedTrackVoices = generateTimeline(lyricTrackObj, tempo)
-
-
+    let mergedTrackVoices = genVoices(lyricTrackObj, PPQN, preset, tempo)
+    
 
 
 
