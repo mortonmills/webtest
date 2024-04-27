@@ -92,7 +92,7 @@ function generateTimeline(lyricTrackObj, tempo) {
             }
 
 
-            let sequencedVoice = `qtrack${trackNum}voice${voiceNum}sequenced.wav`
+            let sequencedVoice = `atrack${trackNum}voice${voiceNum}sequenced.wav`
 
 
             // puts padded syllables in sequence, linear

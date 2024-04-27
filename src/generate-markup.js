@@ -109,12 +109,17 @@ function generateMarkup(lyricTrackObj, PPQN, preset, tempo) {
                 }
                 else if (preset === "espeak") {
 
-                    duration = 100 / duration
+                    // duration = 100 / duration
+                    duration = 50
+                    // pitch = espeakPitch[pitch]
+                    pitch = 50
+
                     str =
                         pitch === undefined
                             // duration may go where rate is
-                            ? `<prosody pitch="${espeakPitch[pitch]}" rate="${100/*duration*/}%">${lyric}</prosody>`
-                            : `<prosody pitch="${espeakPitch[pitch]}" rate="${100/*duration*/}%">${lyric}</prosody>`
+                            // add 100% for duration if problems
+                            ? `<prosody pitch="${pitch}" rate="${duration}%">${lyric}</prosody>`
+                            : `<prosody pitch="${pitch}" rate="${duration}%">${lyric}</prosody>`
                 }
 
 

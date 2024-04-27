@@ -67,15 +67,16 @@
     </SINGING>`
 
         },
-
+// using a voice within markup caused unpredictable results 
+// <voice name="Barf" required="name">
+// </voice>
         espeak: {
             head: `
     <speak>
-    <voice name="Barf" required="name">
     `,
 
             tail: `
-    </voice>
+  
     </speak>
     `
         },

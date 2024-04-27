@@ -23,12 +23,12 @@ function generateSyllables(lyricTrackObj) {
                 "silence",
                 // begin period
                 "1",
-                "0.5", // time of silence definition
-                "2%", // volume silence definition
+                "0.1", // time of silence definition
+                "0%", // volume silence definition
                 // end period
                 "1",
-                "0.001", // time of silence definition
-                "2%", // volume silence definition
+                "0.1", // time of silence definition
+                "0%", // volume silence definition
                 // looping section
                 ":",
                 "newfile",

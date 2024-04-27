@@ -4,7 +4,7 @@
 function main() {
     let tempo = 78
     // have different options for output, can have presets for SSML for polly, azure, and espeak 
-    let preset = "festival" // "festival" or "espeak"
+    let preset = "espeak" // "festival" or "espeak"
 
 
     const { readFileSync } = require('node:fs')
@@ -28,7 +28,6 @@ function main() {
     // this restructures the array of lyrics events
     let lyricTrackObj = setLyrics(lyricTrackArr)
 
-console.log(module.exports)
 
 
     const PPQN = midiObj.timeDivision;
@@ -43,6 +42,10 @@ console.log(module.exports)
     const { generateTimeline } = require('./generate-timeline.js');
     // this generates markups to input into the compatible text-to-speech program
     let markupTrackObj = generateMarkup(lyricTrackObj, PPQN, preset, tempo)
+
+
+
+    console.dir(markupTrackObj, { depth: null });
     // return value is audio in folder
     generateSpeech(markupTrackObj, preset)
     // return value is audio in folder

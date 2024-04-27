@@ -14,11 +14,18 @@ function generateSpeech(markupTrackObj, preset) {
 
             if (preset === "espeak") {
 
+
+                const { writeFileSync } = require('node:fs')
+
+                writeFileSync(`espeaktrack${trackNum}voice${voiceNum}.txt`, voice)
+
                 let listArgs = [
-                    // "-s", "60",
+                    "-s", "60",
                     "-g", "20",
                     "-w", `track${trackNum}voice${voiceNum}.wav`,
-                    "-m", `${voice}`
+                    "-m", `${voice}`,
+                    "-v", `Barf`,
+
                 ]
 
 
@@ -31,7 +38,7 @@ function generateSpeech(markupTrackObj, preset) {
 
                 let { writeFileSync } = require("node:fs")
 
-                console.log(voice)
+                // console.log(voice)
                 // may be possible not to need to write file,
                 // can use string as argument with scheme expression
                 // check text2wave docs

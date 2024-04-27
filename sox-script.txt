@@ -1,5 +1,8 @@
 
 
+epeak-ng min speed may be 85
+
+
 above period parameters
 min duration of sound before silence removal is stopped, 
 what is minimum length of sound, short noises will be ignored
