@@ -10,6 +10,33 @@ The lyrics go through 4 stages.
 - duration
 
 
+add tempo from midi and change pitch for espeak
+should use cutoff for next note not next lyric note
+
+maximum 6 voices for festival
+
+good sound came from base pitch at g2
+and reavoice to e3, gave clear audio, non robotic
+midi was a4 and reavoice center was c4, so up a 6th from g2
+a2 to g3 good sounding tones for sing, d3 and e3 being best sounding 
+and wpm in espeak was 60
+
+test midi
+test espeak and festival
+festival singing synthesis stock feature test
+need to find flinger download, or source build
+dynamic split and align to midi events
+work with sox to create a duration audio
+
+will need to generate vocal data during compile to account for range and key
+
+
+setup default voice pitch to c4 hertz, this will map to reavoice exactly
+the alternative is to change the preset in reaper to match the default pitch hertz in reavoice
+festival output need silence to align with midi, where are docs for singing mode
+dynamic pitch obj
+
+
 dynamic pitch object, use different voices for pitch range octaves
 festival tempo is 1.2 about times faster than what BPM is listed
 78 means 94

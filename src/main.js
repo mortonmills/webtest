@@ -2,9 +2,13 @@
 // adding parameters
 
 function main() {
-    let tempo = 78
+    let tempo = 60
     // have different options for output, can have presets for SSML for polly, azure, and espeak 
-    let preset = "festival" // "festival" or "espeak"
+    let preset = "festival2" 
+    // espeak monotone output should be c4
+    // espeak pitch vocals will use multiple voices to produces accurate pitch
+    // "festival" or "espeak" or "festival2"
+    // festival 1 is very slow better to use festival2
 
 
     const { readFileSync } = require('node:fs')
@@ -34,7 +38,9 @@ function main() {
     // sets up markup for festival and espeak
 
 
-
+    // KEEP THIS SECTION COMMENTED OUT
+    // DO NOT DELETE
+    // IS AN ALTERNATE WAY TO SPLIT UP SYLLABLES
 
     // const { generateMarkup } = require('./generate-markup.js');
     // const { generateSpeech } = require('./generate-speech.js');
@@ -57,7 +63,7 @@ function main() {
     const { genVoices } = require('./gen-voices.js');
     // returns list of filenames to be merged in folder
     let mergedTrackVoices = genVoices(lyricTrackObj, PPQN, preset, tempo)
-    
+
 
 
 

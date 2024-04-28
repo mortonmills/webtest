@@ -132,7 +132,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
 
 
                 // if event exists                 
-                if (event && preset === "festival") {
+                if (event && preset === "festival2") {
 
                     // if event has beginning duration, then pad with rest value
                     if (event.beginAbsDuration) {
@@ -429,7 +429,7 @@ function genVoices(lyricTrackObj, PPQN, preset, tempo) {
             let sequencedVoice = `track${trackNum}voice${voiceNum}sequenced.wav`
 
 
-            if (preset === "festival") {
+            if (preset === "festival2") {
                 // singing markupVoices per voice, typically one voice
                 festivalVoice = festivalVoice.join("\n")
 
