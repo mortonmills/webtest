@@ -46,6 +46,19 @@ give number comparisons names instead of using numbers
 ex, 47 should be trackEndEvent
 
 support for:
+3RD PARTY TTS
+In order to reliably split audio.
+The audio should have a delimiter distinct from the rest.
+One option is to use silence, but a longer silence than is possible
+with other words, such contractions.
+
+The first syllable will have sperate conditional
+and will need to account for the last empty syllable.
+If the split does match the number of syllables required then loop until.
+A safety net for some contractions might be check the string for the "'" character.
+Other contractions such as its or dont or aint will need to be checked another way.
+
+
 TEMPO
 tempo changes, each will have a tempo fixed to it, 
 if any change is found then new section is generated, festival
@@ -54,6 +67,9 @@ get tempo from parsed midi, add too each lyric event with pitch
 create a tempo track, will filter entire midi file for events and add all to tempo track
 then sort tempo events by time
 then add a tempo property for each lyrics event
+
+how does espeak bpm and wpm work?
+beginning of sentences may start off faster than rest sentence.
 
 
 MULTIPLE PITCHES
