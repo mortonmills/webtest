@@ -34,10 +34,10 @@ let zm = {
 
     preset:  [`
         --toc
-        --split-level=2
         --standalone
         --metadata title=tow
         `,
+        // --split-level=2
         // --filter ${path.resolve("code-filter.js")}
         // --include-in-header=${path.resolve("test-header.html")}
         
