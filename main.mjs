@@ -22,7 +22,7 @@ let zm = {
     inputFiles: [`
         docs/api-examples.md 
         docs/markdown-examples.md 
-        docs/README.md 
+        docs/index.md 
 `],
     inputStructure: "filesfiles",
     // inputType: [".md", ".txt"],
