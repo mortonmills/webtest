@@ -28,7 +28,7 @@ let zm = {
     // inputType: [".md", ".txt"],
     // recursive: true,
 
-    outputFolder: `${path.resolve("./website/docs")}`,
+    outputFolder: `${path.resolve("./website")}`,
     outputFileName: "tow",
     outputType: "html",
 

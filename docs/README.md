@@ -1,4 +1,9 @@
 
+
+
+[api](./api-examples.html) 
+[markdow](./markdown-examples.html)
+
 <pre class="mermaid">
 flowchart TB
 
