@@ -1,5 +1,6 @@
 
 import { URL } from 'node:url';
+import path from 'node:path';
 import { isObject, filterFileNamesExist, convertToFullPath } from "../structure-util.mjs"
 import { pandocRender } from "../../render/render-util.mjs"
 export { renderFullFiles }
@@ -90,10 +91,11 @@ function convertOutputFileName(inputFileName) {
     //         : outputFileName[nameIndex - 1]
     //             .join("-")
 
-    let outputFileName = inputFileName.split("/").filter(el => el).join("-")
+    // let outputFileName = inputFileName.split("/").filter(el => el).join("-")
+    let outputFileName = path.parse(inputFileName)
 
 
-    return outputFileName
+    return outputFileName.name
 
 
 }
