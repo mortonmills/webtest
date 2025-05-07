@@ -23,10 +23,10 @@ let genTest = {
     preset: [
         [
             // `--toc`,
-            `--standalone`,
+            // `--standalone`,
             // `--resource-path=${path.resolve(`./`)}`,
             // `--embed-resources`,
-            `--split-level=2`,
+            // `--split-level=2`,
             // `--include-before-body=${siteLinks.mainHeader}`,
             // `--include-before-body=${siteLinks.navBar}`,
 
