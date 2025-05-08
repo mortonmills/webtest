@@ -23,7 +23,7 @@ let genTest = {
     preset: [
         [
             // `--toc`,
-            // `--standalone`,
+            `--standalone`,
             // `--resource-path=${path.resolve(`./`)}`,
             // `--embed-resources`,
             // `--split-level=2`,
