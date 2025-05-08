@@ -16,7 +16,7 @@ let genTest = {
     recursive: true,
 
     // outputFolder: `${path.resolve("/home/mortonmills/def/packages/ssg/dist")}`,
-    outputFolder: `${path.resolve(`./dist`)}`,
+    outputFolder: `./`,
     // outputFileName: "index",
     outputType: "html",
     // --resource-path=${path.resolve("/home/mortonmills/def/assets/images")}
